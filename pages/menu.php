@@ -143,7 +143,8 @@ include '../includes/header.php';
                     <strong>Voorraad:</strong>
                     <?= (int) $product['stock'] ?>
                 </p>
-    <form method="POST" action="cart.php">
+<form method="POST" action="cart.php">
+
     <input
         type="hidden"
         name="product_id"
@@ -163,12 +164,11 @@ include '../includes/header.php';
         max="<?= (int) $product['stock'] ?>"
     >
 
-    <button type="submit">
+    <button type="submit" name="action" value="add">
         Toevoegen aan mandje
     </button>
 
 </form>
-
             </article>
 
         <?php endforeach; ?>

@@ -16,10 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $action = $_POST['action'] ?? '';
     $productId = (int) ($_POST['product_id'] ?? 0);
+    $quantity = (int) ($_POST['quantity'] ?? 1);
 
-    if ($action === 'update') {
-
-        $quantity = (int) ($_POST['quantity'] ?? 1);
+    /*
+     * Product toevoegen
+     */
+    if ($action === 'add') {
 
         $stmt = $pdo->prepare(
             'SELECT id, stock
@@ -35,6 +37,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['cart'][$productId] = $quantity;
         }
 
+    /*
+     * Aantal aanpassen
+     */
+    } elseif ($action === 'update') {
+
+        $stmt = $pdo->prepare(
+            'SELECT id, stock
+             FROM products
+             WHERE id = ?'
+        );
+
+        $stmt->execute([$productId]);
+
+        $product = $stmt->fetch();
+
+        if ($product && $quantity > 0 && $quantity <= $product['stock']) {
+            $_SESSION['cart'][$productId] = $quantity;
+        }
+
+    /*
+     * Product verwijderen
+     */
     } elseif ($action === 'remove') {
 
         unset($_SESSION['cart'][$productId]);
@@ -164,6 +188,15 @@ include '../includes/header.php';
 
 <p>
     <a href="menu.php">Terug naar menu</a>
+    <?php if (!empty($cartItems)): ?>
+
+    <p>
+        <a href="pickup.php">
+            Kies een afhaalmoment
+        </a>
+    </p>
+
+<?php endif; ?>
 </p>
 
 <p>

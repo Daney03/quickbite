@@ -250,12 +250,12 @@ if (isset($_POST['place_order'])) {
 
     } catch (Exception $e) {
 
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-
-        $orderError = $e->getMessage();
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
     }
+
+    $errors[] = 'Er is iets misgegaan bij het plaatsen van je bestelling. Probeer het opnieuw.';
+}
 }
 
 include '../includes/header.php';

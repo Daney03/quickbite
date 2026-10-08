@@ -6,23 +6,51 @@ requireLogin();
 requireEmployee();
 
 include '../includes/header.php';
-
 ?>
 
 <h1>Medewerker dashboard</h1>
 
 <p>
-    Welkom, <?= htmlspecialchars($_SESSION['name']) ?>!
+    Welkom,
+    <?= htmlspecialchars($_SESSION['name']) ?>!
 </p>
 
 <p>
     Je bent ingelogd als medewerker.
 </p>
 
-<a href="../public/logout.php">Uitloggen</a>
+<h2>Beheer</h2>
 
-<?php
+<ul>
+    <li>
+        <a href="orders.php">
+            Bestellingen beheren
+        </a>
+    </li>
 
-include '../includes/footer.php';
+    <li>
+        <a href="stock.php">
+            Voorraad beheren
+        </a>
+    </li>
 
-?>
+    <li>
+        <a href="products.php">
+            Producten beheren
+        </a>
+    </li>
+
+    <li>
+        <a href="time-slots.php">
+            Tijdsloten beheren
+        </a>
+    </li>
+</ul>
+
+<p>
+    <a href="../public/logout.php">
+        Uitloggen
+    </a>
+</p>
+
+<?php include '../includes/footer.php'; ?>

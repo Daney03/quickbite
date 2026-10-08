@@ -47,8 +47,25 @@ include '../includes/header.php';
 </p>
 
 <p>
+<?php
+
+$statusLabels = [
+    'received' => 'Ontvangen',
+    'preparing' => 'In bereiding',
+    'ready' => 'Klaar',
+    'picked_up' => 'Afgehaald'
+];
+
+?>
+
+<p>
     Status:
-    <?= htmlspecialchars($order['status']) ?>
+    <strong>
+        <?= htmlspecialchars(
+            $statusLabels[$order['status']] ?? 'Onbekend'
+        ) ?>
+    </strong>
+</p>
 </p>
 
 <p>

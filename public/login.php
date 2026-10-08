@@ -1,24 +1,21 @@
 <?php
 
-require_once '../config/database.php';
-require_once '../includes/auth.php';
+session_start();
 
-$errors = [];
+require_once '../config/database.php';
+
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Vul een geldig e-mailadres in.';
-    }
+    if ($email === '' || $password === '') {
 
-    if ($password === '') {
-        $errors[] = 'Vul je wachtwoord in.';
-    }
+        $error = 'Vul dit veld in.';
 
-    if (empty($errors)) {
+    } else {
 
         $stmt = $pdo->prepare(
             'SELECT id, name, email, password, role
@@ -30,9 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $user = $stmt->fetch();
 
-        if (!$user || !password_verify($password, $user['password'])) {
-            $errors[] = 'E-mailadres of wachtwoord is niet juist.';
-        } else {
+        if ($user && password_verify($password, $user['password'])) {
 
             session_regenerate_id(true);
 
@@ -41,60 +36,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role'] = $user['role'];
 
             if ($user['role'] === 'employee') {
+
                 header('Location: ../employee/dashboard.php');
+                exit;
+
             } else {
+
                 header('Location: ../pages/menu.php');
+                exit;
             }
 
-            exit;
+        } else {
+
+            $error = 'E-mailadres of wachtwoord is niet juist.';
         }
     }
 }
 
-include '../includes/header.php';
+require_once '../includes/header.php';
 
 ?>
 
 <h1>Inloggen</h1>
 
-<?php if (!empty($errors)): ?>
+<?php if ($error !== ''): ?>
 
-    <div>
-        <?php foreach ($errors as $error): ?>
-            <p><?= htmlspecialchars($error) ?></p>
-        <?php endforeach; ?>
+    <div class="alert error">
+        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
     </div>
 
 <?php endif; ?>
 
 <form method="POST">
 
-    <div>
-        <label for="email">E-mailadres</label>
+    <div class="form-group">
+
+        <label for="email">
+            E-mailadres
+        </label>
+
         <input
             type="email"
             id="email"
             name="email"
+            value="<?= htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
             required
         >
+
     </div>
 
-    <div>
-        <label for="password">Wachtwoord</label>
+    <div class="form-group">
+
+        <label for="password">
+            Wachtwoord
+        </label>
+
         <input
             type="password"
             id="password"
             name="password"
             required
         >
+
     </div>
 
-    <button type="submit">Inloggen</button>
+    <button type="submit">
+        Inloggen
+    </button>
 
 </form>
 
-<?php
+<p>
+    Nog geen account?
+    <a href="register.php">
+        Account aanmaken
+    </a>
+</p>
 
-include '../includes/footer.php';
-
-?>
+<?php require_once '../includes/footer.php'; ?>

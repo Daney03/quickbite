@@ -1,77 +1,402 @@
+```css
+/* =========================
+   Algemene instellingen
+   ========================= */
+
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #222;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f8f5;
+    color: #26352b;
     line-height: 1.6;
 }
 
 .container {
     width: 90%;
-    max-width: 1200px;
+    max-width: 1150px;
     margin: 0 auto;
 }
 
+/* =========================
+   Header
+   ========================= */
+
 .site-header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-    padding: 20px 0;
+    background: #ffffff;
+    border-bottom: 1px solid #dce6de;
+    margin-bottom: 35px;
 }
 
-.site-header .container {
+.header-inner {
+    min-height: 72px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
+    color: #3f7d4a;
     text-decoration: none;
-    color: #222;
 }
 
 nav {
     display: flex;
+    align-items: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 nav a {
+    color: #34463a;
     text-decoration: none;
-    color: #222;
+    font-weight: 600;
 }
 
 nav a:hover {
+    color: #3f7d4a;
+}
+
+/* =========================
+   Titels
+   ========================= */
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #294b32;
+    font-size: 32px;
+}
+
+h2 {
+    color: #315c3b;
+    margin-top: 0;
+}
+
+p {
+    margin-top: 0;
+}
+
+/* =========================
+   Producten
+   ========================= */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 25px;
+}
+
+.product-card {
+    background: #ffffff;
+    border: 1px solid #dce6de;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 3px 10px rgba(40, 70, 45, 0.06);
+}
+
+.product-card h2 {
+    margin-bottom: 10px;
+}
+
+.product-card .price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3f7d4a;
+}
+
+.product-card form {
+    margin-top: 15px;
+}
+
+/* =========================
+   Formulieren
+   ========================= */
+
+form {
+    max-width: 600px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #34463a;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #cbd8cd;
+    border-radius: 7px;
+    font-size: 16px;
+    background: #ffffff;
+    color: #26352b;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #a9cdb0;
+    border-color: #3f7d4a;
+}
+
+/* =========================
+   Knoppen
+   ========================= */
+
+button,
+.button {
+    display: inline-block;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 18px;
+    background: #4f8d59;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button:hover,
+.button:hover {
+    background: #3f7548;
+}
+
+button:disabled {
+    background: #aeb8b0;
+    cursor: not-allowed;
+}
+
+/* =========================
+   Meldingen
+   ========================= */
+
+.alert {
+    padding: 14px 16px;
+    border-radius: 7px;
+    margin-bottom: 20px;
+}
+
+.alert.error {
+    background: #f9e3e3;
+    border: 1px solid #e5bcbc;
+    color: #7a2e2e;
+}
+
+.alert.success {
+    background: #e2f1e5;
+    border: 1px solid #b9d8bf;
+    color: #2d6338;
+}
+
+/* =========================
+   Filter
+   ========================= */
+
+.filter-form {
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #dce6de;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.filter-form .form-group {
+    margin-bottom: 12px;
+}
+
+/* =========================
+   Winkelmandje
+   ========================= */
+
+.cart-item {
+    background: #ffffff;
+    border: 1px solid #dce6de;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.cart-item h2 {
+    margin-bottom: 8px;
+}
+
+.cart-total {
+    font-size: 22px;
+    font-weight: bold;
+    color: #315c3b;
+    margin-top: 25px;
+}
+
+/* =========================
+   Tijdsloten
+   ========================= */
+
+.slot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.slot-card {
+    background: #ffffff;
+    border: 1px solid #dce6de;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.slot-card.full {
+    background: #f0f2f0;
+    opacity: 0.7;
+}
+
+/* =========================
+   Bestellingen
+   ========================= */
+
+.order-card {
+    background: #ffffff;
+    border: 1px solid #dce6de;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.order-card hr {
+    border: 0;
+    border-top: 1px solid #dce6de;
+    margin-top: 20px;
+}
+
+/* =========================
+   Medewerker dashboard
+   ========================= */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.dashboard-card {
+    background: #ffffff;
+    border: 1px solid #dce6de;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 10px rgba(40, 70, 45, 0.05);
+}
+
+.dashboard-card a {
+    color: #3f7d4a;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.dashboard-card a:hover {
     text-decoration: underline;
 }
 
-main {
-    min-height: 80vh;
-    padding: 40px 0;
+/* =========================
+   Tabellen
+   ========================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    margin-bottom: 25px;
 }
 
-.site-footer {
-    background-color: #ffffff;
-    border-top: 1px solid #ddd;
-    padding: 20px 0;
+th,
+td {
+    padding: 12px;
+    border: 1px solid #dce6de;
+    text-align: left;
+}
+
+th {
+    background: #edf5ee;
+    color: #315c3b;
+}
+
+/* =========================
+   Footer
+   ========================= */
+
+footer {
+    margin-top: 50px;
+    padding: 25px 0;
+    border-top: 1px solid #dce6de;
+    color: #68756b;
     text-align: center;
 }
 
-@media (max-width: 700px) {
+/* =========================
+   Mobiele weergave
+   ========================= */
 
-    .site-header .container {
+@media (max-width: 800px) {
+
+    .header-inner {
         flex-direction: column;
-        gap: 15px;
+        align-items: flex-start;
+        padding: 15px 0;
+    }
+
+    nav {
+        width: 100%;
+        gap: 12px;
+    }
+
+    .product-grid,
+    .slot-grid,
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+
+    .container {
+        width: 94%;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .product-grid,
+    .slot-grid,
+    .dashboard-grid {
+        grid-template-columns: 1fr;
     }
 
     nav {
         flex-direction: column;
-        align-items: center;
-        gap: 10px;
+        align-items: flex-start;
     }
+
+    button,
+    .button {
+        width: 100%;
+        text-align: center;
+    }
+}
+body {
+    background: lime !important;
 }

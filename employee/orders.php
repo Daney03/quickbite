@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $orderId > 0 &&
         in_array($status, $allowedStatuses, true)
     ) {
-
         $stmt = $pdo->prepare(
             'UPDATE orders
              SET status = ?
@@ -65,12 +64,19 @@ $stmt = $pdo->query(
      ORDER BY o.created_at DESC'
 );
 
-$orders = $stmt->fetchAll();
+$orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+/*
+ * Zorg ervoor dat $orders altijd een array is.
+ */
+if (!is_array($orders)) {
+    $orders = [];
+}
 
 include '../includes/header.php';
 ?>
 
-<h1>Bestellingen</h1>
+<h1>Bestellingen beheren</h1>
 
 <?php if (empty($orders)): ?>
 
@@ -80,46 +86,58 @@ include '../includes/header.php';
 
     <?php foreach ($orders as $order): ?>
 
-        <article>
+        <article class="order-card">
 
             <h2>
                 Bestelling #<?= (int) $order['id'] ?>
             </h2>
 
             <p>
-                Klant:
-                <?= htmlspecialchars($order['name']) ?>
+                <strong>Klant:</strong>
+                <?= htmlspecialchars($order['name'], ENT_QUOTES, 'UTF-8') ?>
             </p>
 
             <p>
-                E-mail:
-                <?= htmlspecialchars($order['email']) ?>
+                <strong>E-mail:</strong>
+                <?= htmlspecialchars($order['email'], ENT_QUOTES, 'UTF-8') ?>
             </p>
 
             <p>
-                Afhaalmoment:
-                <?= htmlspecialchars($order['date']) ?>
+                <strong>Afhaalmoment:</strong>
+                <?= htmlspecialchars($order['date'], ENT_QUOTES, 'UTF-8') ?>
                 van
-                <?= htmlspecialchars(substr($order['start_time'], 0, 5)) ?>
+                <?= htmlspecialchars(substr($order['start_time'], 0, 5), ENT_QUOTES, 'UTF-8') ?>
                 tot
-                <?= htmlspecialchars(substr($order['end_time'], 0, 5)) ?>
+                <?= htmlspecialchars(substr($order['end_time'], 0, 5), ENT_QUOTES, 'UTF-8') ?>
             </p>
 
             <p>
-                Totaal:
-                € <?= number_format($order['total_price'], 2, ',', '.') ?>
+                <strong>Totaal:</strong>
+                € <?= number_format((float) $order['total_price'], 2, ',', '.') ?>
             </p>
 
             <p>
-                Afhaalcode:
-                <strong>
-                    <?= htmlspecialchars($order['pickup_code']) ?>
-                </strong>
+                <strong>Afhaalcode:</strong>
+                <?= htmlspecialchars($order['pickup_code'], ENT_QUOTES, 'UTF-8') ?>
             </p>
 
             <p>
-                Huidige status:
-                <?= htmlspecialchars($order['status']) ?>
+                <strong>Huidige status:</strong>
+
+                <?php
+                $statusLabels = [
+                    'received' => 'Ontvangen',
+                    'preparing' => 'In bereiding',
+                    'ready' => 'Klaar',
+                    'picked_up' => 'Afgehaald'
+                ];
+
+                echo htmlspecialchars(
+                    $statusLabels[$order['status']] ?? $order['status'],
+                    ENT_QUOTES,
+                    'UTF-8'
+                );
+                ?>
             </p>
 
             <form method="POST">
@@ -138,6 +156,7 @@ include '../includes/header.php';
                     id="status-<?= (int) $order['id'] ?>"
                     name="status"
                 >
+
                     <option
                         value="received"
                         <?= $order['status'] === 'received' ? 'selected' : '' ?>
@@ -165,6 +184,7 @@ include '../includes/header.php';
                     >
                         Afgehaald
                     </option>
+
                 </select>
 
                 <button type="submit">

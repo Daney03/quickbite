@@ -7,32 +7,70 @@ if (session_status() === PHP_SESSION_NONE) {
 $currentPath = $_SERVER['PHP_SELF'] ?? '';
 
 $isPublic = str_contains($currentPath, '/public/');
+$isPages = str_contains($currentPath, '/pages/');
+$isEmployee = str_contains($currentPath, '/employee/');
+
 
 if ($isPublic) {
-    $home = 'index.php';
+
+    $home = '../pages/menu.php';
     $login = 'login.php';
     $register = 'register.php';
     $logout = 'logout.php';
-    $cart = '../pages/cart.php';
-    $orders = '../pages/orders.php';
-    $employee = '../employee/dashboard.php';
+
+    $cartLink = '../pages/cart.php';
+    $ordersLink = '../pages/orders.php';
+    $employeeLink = '../employee/dashboard.php';
+
     $css = 'css/style.css';
-} else {
-    $home = '../public/index.php';
+
+} elseif ($isPages) {
+
+    $home = 'menu.php';
     $login = '../public/login.php';
     $register = '../public/register.php';
     $logout = '../public/logout.php';
-    $cart = '../pages/cart.php';
-    $orders = '../pages/orders.php';
-    $employee = '../employee/dashboard.php';
+
+    $cartLink = 'cart.php';
+    $ordersLink = 'orders.php';
+    $employeeLink = '../employee/dashboard.php';
+
+    $css = '../public/css/style.css';
+
+} elseif ($isEmployee) {
+
+    $home = '../pages/menu.php';
+    $login = '../public/login.php';
+    $register = '../public/register.php';
+    $logout = '../public/logout.php';
+
+    $cartLink = '../pages/cart.php';
+    $ordersLink = '../pages/orders.php';
+    $employeeLink = 'dashboard.php';
+
+    $css = '../public/css/style.css';
+
+} else {
+
+    $home = '../pages/menu.php';
+    $login = '../public/login.php';
+    $register = '../public/register.php';
+    $logout = '../public/logout.php';
+
+    $cartLink = '../pages/cart.php';
+    $ordersLink = '../pages/orders.php';
+    $employeeLink = '../employee/dashboard.php';
+
     $css = '../public/css/style.css';
 }
+
 ?>
 
 <!DOCTYPE html>
 <html lang="nl">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -46,6 +84,7 @@ if ($isPublic) {
         rel="stylesheet"
         href="<?= htmlspecialchars($css, ENT_QUOTES, 'UTF-8') ?>"
     >
+
 </head>
 
 <body>
@@ -63,7 +102,6 @@ if ($isPublic) {
 
         <nav>
 
-            <!-- Deze link staat altijd in de navigatie -->
             <a href="<?= htmlspecialchars($home, ENT_QUOTES, 'UTF-8') ?>">
                 Menu
             </a>
@@ -72,11 +110,11 @@ if ($isPublic) {
 
                 <?php if ($_SESSION['role'] === 'customer'): ?>
 
-                    <a href="<?= htmlspecialchars($cart, ENT_QUOTES, 'UTF-8') ?>">
+                    <a href="<?= htmlspecialchars($cartLink, ENT_QUOTES, 'UTF-8') ?>">
                         Mandje
                     </a>
 
-                    <a href="<?= htmlspecialchars($orders, ENT_QUOTES, 'UTF-8') ?>">
+                    <a href="<?= htmlspecialchars($ordersLink, ENT_QUOTES, 'UTF-8') ?>">
                         Mijn bestellingen
                     </a>
 
@@ -84,7 +122,7 @@ if ($isPublic) {
 
                 <?php if ($_SESSION['role'] === 'employee'): ?>
 
-                    <a href="<?= htmlspecialchars($employee, ENT_QUOTES, 'UTF-8') ?>">
+                    <a href="<?= htmlspecialchars($employeeLink, ENT_QUOTES, 'UTF-8') ?>">
                         Medewerker
                     </a>
 

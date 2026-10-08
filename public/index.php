@@ -1,30 +1,18 @@
 <?php
 
-require_once '../config/database.php';
-
-include '../includes/header.php';
-
+require_once '../includes/header.php';
 ?>
 
-<section>
-    <h1>Welkom bij QuickBite</h1>
+<h1>Welkom bij QuickBite</h1>
 
-    <p>
-        Bestel eenvoudig je favoriete eten en kies zelf wanneer je
-        jouw bestelling wilt ophalen.
-    </p>
+<p>
+    Bekijk ons menu en plaats eenvoudig je bestelling.
+</p>
 
-    <a href="login.php">
-        Inloggen
+<p>
+    <a href="../pages/menu.php">
+        Bekijk het menu
     </a>
+</p>
 
-    <a href="register.php">
-        Account aanmaken
-    </a>
-</section>
-
-<?php
-
-include '../includes/footer.php';
-
-?>
+<?php include '../includes/footer.php'; ?>
